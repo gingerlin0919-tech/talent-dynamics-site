@@ -1,0 +1,1392 @@
+<!-- placeholder notice: replace [PRIVACY_URL] and [CONTACT_EMAIL] with real values before launch. All "預約" CTAs scroll to the in-page #book form (no external booking tool) — the form is the single point of contact. Photo placeholders are marked with a dashed border and a suggested-content label; the abstract line illustrations are original generative graphics, not stock photography. The booking form currently only validates and shows a confirmation message client-side — it needs to be wired to a real backend/email destination before launch (see comment near #bookingForm script). -->
+<title>人才動態管理</title>
+<meta name="description" content="新型動態管理工具提供工作行為資料；Ginger結合企業情境，協助HR與主管看懂：現在真正需要調整的是人、管理方式，還是人才配置。《把資歷變資產》讀者限定的企業診斷式對談。">
+<meta property="og:title" content="人才動態管理｜Ginger Lin">
+<meta property="og:description" content="績效開始下降以前，人才錯配的訊號早已出現。先釐清問題，再決定是否需要進一步評測。">
+<meta property="og:type" content="website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0F0F0F;
+    --ink-2:#1C1C1C;
+    --cream:#F2EBDD;
+    --gold:#C6A15B;
+    --gold-deep:#A8823F;
+    --text:#272B29;
+    --bg:#F7F4EE;
+    --card:#FFFFFF;
+    --line: rgba(198,161,91,0.38);
+    --line-soft: rgba(10,10,10,0.12);
+    --shadow: 0 20px 48px rgba(10,10,10,0.14);
+    --radius: 2px;
+    --maxw: 1120px;
+    --serif: "Noto Serif TC", "Noto Serif", serif;
+    --sans: "Noto Sans TC", "Noto Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --lat: "Cormorant Garamond", var(--serif);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    color:var(--ink);
+    margin:0;
+    text-wrap:balance;
+    font-weight:600;
+  }
+
+  p{margin:0;}
+  a{color:inherit;}
+  ul{margin:0; padding:0; list-style:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit;}
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .eyebrow{
+    font-family:var(--lat);
+    font-style:italic;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    font-size:14px;
+  }
+  .step-kicker{
+    font-family:var(--lat);
+    font-style:italic;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    font-size:13px;
+    margin-bottom:10px;
+  }
+
+  .section{
+    padding:112px 0;
+    scroll-margin-top:84px;
+  }
+  @media (max-width:760px){
+    .section{padding:72px 0;}
+  }
+
+  .section-head{
+    max-width:760px;
+    margin:0 0 56px;
+  }
+  .section-head .eyebrow{display:block; margin-bottom:18px;}
+  .section-head h2{font-size:clamp(26px,3.6vw,38px); line-height:1.5;}
+  .rule{
+    width:56px;height:1px;background:var(--gold);
+    margin:22px 0;
+    border:none;
+  }
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:transparent;
+    transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+  }
+  header.nav.scrolled{
+    background:rgba(10,10,10,0.85);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 6px 24px rgba(0,0,0,0.14);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:20px 28px;
+    display:flex; align-items:center; justify-content:flex-end;
+  }
+  .logo{
+    font-family:var(--serif); font-weight:600; font-size:17px;
+    color:var(--cream); letter-spacing:0.02em;
+    text-decoration:none; white-space:nowrap;
+  }
+  .nav-links{
+    display:flex; align-items:center; gap:34px;
+  }
+  .nav-links a{
+    color:var(--cream); text-decoration:none; font-size:14.5px;
+    opacity:0.88; position:relative;
+  }
+  .nav-links a:hover{opacity:1;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:var(--sans); font-weight:700; font-size:14.5px;
+    letter-spacing:0.02em;
+    padding:13px 28px;
+    border:1px solid transparent;
+    text-decoration:none;
+    cursor:pointer;
+    border-radius:var(--radius);
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .btn-gold{
+    background:var(--gold); color:var(--ink);
+  }
+  .btn-gold:hover{background:#d4b073; box-shadow:0 10px 24px rgba(198,161,91,0.35);}
+  .btn-outline{
+    background:transparent; color:var(--cream); border-color:rgba(242,235,221,0.5);
+  }
+  .btn-outline:hover{border-color:var(--cream);}
+  .btn-outline-ink{
+    background:transparent; color:var(--ink); border-color:var(--ink);
+  }
+  .btn-outline-ink:hover{background:var(--ink); color:var(--cream);}
+  .nav-cta{padding:11px 22px; font-size:13.5px;}
+
+  .nav-toggle{
+    display:none; background:none; border:none; color:var(--cream);
+    width:32px; height:24px; position:relative; cursor:pointer; padding:0;
+  }
+  .nav-toggle span, .nav-toggle::before, .nav-toggle::after{
+    content:""; position:absolute; left:0; right:0; height:2px; background:var(--cream);
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle::before{top:2px;}
+  .nav-toggle span{top:11px;}
+  .nav-toggle::after{top:20px;}
+  .nav-toggle.open::before{transform:translateY(9px) rotate(45deg);}
+  .nav-toggle.open::after{transform:translateY(-9px) rotate(-45deg);}
+  .nav-toggle.open span{opacity:0;}
+
+  @media (max-width:900px){
+    .nav-links{
+      position:fixed; inset:0 0 0 auto; top:0; height:100vh; width:78vw; max-width:320px;
+      background:var(--ink); flex-direction:column; align-items:flex-start;
+      padding:96px 32px 40px; gap:26px;
+      transform:translateX(100%); transition:transform .35s ease;
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-links a{font-size:17px; opacity:1;}
+    .nav-cta{margin-top:12px;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse at 15% -10%, rgba(198,161,91,0.16), transparent 45%),
+      linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+    color:var(--cream);
+    padding:180px 0 120px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-8%; top:12%; width:560px; height:560px;
+    background:var(--hero-lines);
+    opacity:0.5;
+    pointer-events:none;
+  }
+  @media (max-width:900px){.hero::after{display:none;}}
+  .hero-inner{max-width:760px; position:relative; z-index:1;}
+  .hero h1{
+    color:var(--cream);
+    font-size:clamp(32px,5vw,52px);
+    line-height:1.42;
+    margin:22px 0 26px;
+  }
+  .hero .lead{
+    font-size:17px; line-height:1.95; color:rgba(242,235,221,0.86);
+    max-width:600px; margin-bottom:34px;
+  }
+  .hero .prompt{
+    font-size:15.5px; color:var(--gold); font-weight:700; margin-bottom:20px;
+  }
+  .hero-cards{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+    margin-bottom:40px;
+  }
+  @media (max-width:700px){.hero-cards{grid-template-columns:1fr;}}
+  .hero-card{
+    border:1px solid rgba(242,235,221,0.22);
+    background:rgba(242,235,221,0.05);
+    padding:18px 18px 20px;
+    font-size:14.5px; line-height:1.7; color:var(--cream);
+  }
+  .hero-card .n{
+    font-family:var(--lat); color:var(--gold); font-size:22px; font-style:italic; font-weight:600;
+    display:block; margin-bottom:8px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:22px;}
+  @media (max-width:700px){
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .hero-actions .btn{width:100%; text-align:center;}
+  }
+  .hero-trust{font-size:13.5px; color:rgba(242,235,221,0.62); line-height:1.9;}
+
+  /* ---------- Cards / grids ---------- */
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:26px;}
+  @media (max-width:860px){.grid-3{grid-template-columns:1fr;} .grid-2{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line-soft);
+    padding:32px 28px;
+    box-shadow:var(--shadow);
+  }
+  .card .n{
+    font-family:var(--lat); font-style:italic; font-weight:600; color:var(--gold-deep);
+    font-size:20px; display:block; margin-bottom:14px;
+  }
+  .card h3{font-size:18px; color:var(--ink); line-height:1.55; margin-bottom:10px;}
+  .card p{font-size:14.5px; color:#4a5049; line-height:1.85;}
+
+  .pullquote{
+    font-family:var(--serif); font-size:clamp(20px,2.6vw,26px); color:var(--ink);
+    line-height:1.75; max-width:820px; margin:56px 0 0; padding-top:32px; border-top:1px solid var(--line);
+  }
+
+  /* ---------- Comparison table ---------- */
+  .cmp-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  table.cmp{
+    width:100%; border-collapse:collapse; min-width:760px;
+    background:var(--card); box-shadow:var(--shadow);
+  }
+  table.cmp th, table.cmp td{
+    text-align:left; padding:18px 20px; font-size:14.5px; line-height:1.75;
+    border-bottom:1px solid var(--line-soft); vertical-align:top;
+  }
+  table.cmp thead th{
+    font-family:var(--serif); font-weight:600; color:var(--cream); background:var(--ink);
+    font-size:14px;
+  }
+  table.cmp tbody th{
+    font-weight:700; color:var(--ink); background:rgba(198,161,91,0.06); white-space:nowrap;
+  }
+  table.cmp tbody tr:last-child td, table.cmp tbody tr:last-child th{border-bottom:none;}
+
+  @media (max-width:760px){
+    table.cmp thead{display:none;}
+    table.cmp, table.cmp tbody, table.cmp tr, table.cmp td, table.cmp th{display:block; width:100%; min-width:0;}
+    table.cmp{box-shadow:none; background:none;}
+    table.cmp tr{background:var(--card); box-shadow:var(--shadow); margin-bottom:16px; padding:6px 4px;}
+    table.cmp tbody th{background:none; border-bottom:1px solid var(--line);}
+    table.cmp td{border-bottom:none; padding:12px 20px;}
+    table.cmp td::before{
+      content:attr(data-label); display:block; font-family:var(--lat); font-style:italic;
+      color:var(--gold-deep); font-weight:600; font-size:12.5px; letter-spacing:0.04em; margin-bottom:4px;
+    }
+  }
+
+  .source-link{
+    display:inline-flex; align-items:center; gap:8px; margin-top:18px;
+    font-size:13.5px; color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--gold);
+    padding-bottom:2px;
+  }
+
+  /* ---------- Section 4: contrast lists ---------- */
+  .contrast{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    border:1px solid var(--line-soft); background:var(--card); box-shadow:var(--shadow);
+  }
+  @media (max-width:760px){.contrast{grid-template-columns:1fr;}}
+  .contrast-col{padding:36px 32px;}
+  .contrast-col.old{border-right:1px solid var(--line-soft); background:#FBF9F5;}
+  @media (max-width:760px){.contrast-col.old{border-right:none; border-bottom:1px solid var(--line-soft);}}
+  .contrast-col h4{
+    font-family:var(--lat); font-style:italic; font-size:14px; letter-spacing:0.06em;
+    text-transform:uppercase; color:#8a8073; margin-bottom:20px; font-weight:600;
+  }
+  .contrast-col.new h4{color:var(--gold-deep);}
+  .contrast-col li{
+    font-size:15px; line-height:1.8; padding:12px 0; border-top:1px solid var(--line-soft);
+  }
+  .contrast-col li:first-of-type{border-top:none;}
+  .contrast-col.old li{color:#6b6459;}
+  .contrast-col.new li{color:var(--text); font-weight:500;}
+
+  /* ---------- Section 5: three-layer diagram ---------- */
+  .layers{max-width:820px; margin:0 auto 56px; position:relative;}
+  .layer{
+    display:grid; grid-template-columns:64px 1fr; gap:24px;
+    padding:26px 0; position:relative;
+  }
+  .layer:not(:last-child)::after{
+    content:""; position:absolute; left:31px; top:64px; bottom:-18px; width:1px;
+    background:var(--line);
+  }
+  .layer .dot{
+    width:64px; height:64px; border:1px solid var(--gold); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--lat); font-style:italic; font-weight:600; color:var(--gold-deep); font-size:15px;
+    background:var(--bg); flex-shrink:0;
+  }
+  .layer h4{font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:8px;}
+  .layer p{font-size:14.5px; color:#4a5049; line-height:1.85;}
+
+  .qlist{
+    max-width:820px; margin:0 auto; display:grid; gap:12px;
+  }
+  .qlist li{
+    display:flex; gap:14px; font-size:15px; padding:16px 20px;
+    background:var(--card); border-left:2px solid var(--gold); box-shadow:var(--shadow);
+  }
+
+  .dash-list{display:grid; gap:9px;}
+  .dash-list li{padding-left:18px; position:relative; font-size:14px; line-height:1.75;}
+  .dash-list li::before{content:"–"; position:absolute; left:0; color:var(--gold-deep); font-weight:700;}
+
+  /* ---------- Dark band ---------- */
+  .band-dark{background:var(--ink); color:var(--cream);}
+  .band-dark .section-head h2{color:var(--cream);}
+  .band-dark .card{background:rgba(242,235,221,0.06); border-color:rgba(242,235,221,0.14); box-shadow:none;}
+  .band-dark .card h3{color:var(--cream);}
+  .band-dark .card p{color:rgba(242,235,221,0.72);}
+  .band-dark .card .n{color:var(--gold);}
+  .band-dark .eyebrow{color:var(--gold);}
+  .band-dark p, .band-dark li{color:rgba(242,235,221,0.82);}
+
+  /* ---------- Two-column suitability ---------- */
+  .suit{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+  @media (max-width:760px){.suit{grid-template-columns:1fr;}}
+  .suit-col{padding:34px 30px; border-top:3px solid var(--gold); background:var(--card); box-shadow:var(--shadow);}
+  .suit-col.no{border-top-color:#9c9384;}
+  .suit-col h4{font-family:var(--serif); font-size:19px; margin-bottom:20px; color:var(--ink);}
+  .suit-col li{
+    font-size:14.5px; line-height:1.75; padding:11px 0 11px 26px; position:relative;
+    border-top:1px solid var(--line-soft);
+  }
+  .suit-col li:first-child{border-top:none;}
+  .suit-col li::before{
+    position:absolute; left:0; top:11px; font-family:var(--lat); font-weight:700;
+  }
+  .suit-col.yes li::before{content:"✓"; color:var(--gold-deep);}
+  .suit-col.no li::before{content:"–"; color:#9c9384;}
+
+  /* ---------- Science callouts ---------- */
+  .sci-basics{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-bottom:40px;}
+  @media (max-width:760px){.sci-basics{grid-template-columns:1fr;}}
+  .sci-basic{padding:28px 30px; background:var(--card); box-shadow:var(--shadow);}
+  .sci-basic h4{font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:10px;}
+  .sci-basic p{font-size:14.5px; color:#4a5049;}
+
+  .callout{
+    border:1px solid var(--line); background:rgba(198,161,91,0.06);
+    padding:24px 28px; font-size:14px; line-height:1.85; color:#463f2e;
+    margin:22px 0;
+  }
+  .callout.warn{
+    border-color:var(--ink); background:rgba(10,10,10,0.05); color:var(--text);
+  }
+  .callout strong{color:var(--ink);}
+
+  /* ---------- Process timeline ---------- */
+  .timeline{max-width:860px; margin:0 auto; display:grid; gap:0;}
+  .tl-step{
+    display:grid; grid-template-columns:96px 1fr; gap:26px; padding:34px 0;
+    border-top:1px solid var(--line-soft);
+  }
+  .tl-step:first-child{border-top:none;}
+  .tl-num{
+    font-family:var(--lat); font-style:italic; font-weight:600; color:var(--gold-deep); font-size:34px; line-height:1;
+  }
+  .tl-step h4{font-family:var(--serif); font-size:19px; color:var(--ink); margin-bottom:10px;}
+  .tl-step p{font-size:14.5px; color:#4a5049; margin-bottom:10px;}
+  .tl-step ul{margin-top:10px; display:grid; gap:6px;}
+  .tl-step ul li{font-size:14px; color:#4a5049; padding-left:16px; position:relative;}
+  .tl-step ul li::before{content:"·"; position:absolute; left:0; color:var(--gold-deep); font-weight:700;}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:820px; margin:0 auto;}
+  .faq details{
+    border-bottom:1px solid var(--line-soft); padding:22px 0;
+  }
+  .faq details:first-child{border-top:1px solid var(--line-soft);}
+  .faq summary{
+    cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;
+    gap:20px; font-family:var(--serif); font-size:16.5px; color:var(--ink); font-weight:600;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary .plus{
+    flex-shrink:0; width:26px; height:26px; border:1px solid var(--gold); border-radius:50%;
+    position:relative;
+  }
+  .faq summary .plus::before, .faq summary .plus::after{
+    content:""; position:absolute; background:var(--gold-deep); top:50%; left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .faq summary .plus::before{width:10px; height:1.5px;}
+  .faq summary .plus::after{width:1.5px; height:10px; transition:transform .25s ease;}
+  .faq details[open] summary .plus::after{transform:translate(-50%,-50%) scaleY(0);}
+  .faq .faq-body{
+    font-size:14.5px; line-height:1.9; color:#4a5049; padding:16px 46px 0 0;
+  }
+  .faq summary:focus-visible{outline:2px solid var(--gold-deep); outline-offset:4px;}
+
+  /* ---------- Final CTA ---------- */
+  .cta-final{
+    background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+    color:var(--cream); text-align:left; padding:130px 0;
+  }
+  .cta-final h2{color:var(--cream); font-size:clamp(26px,4vw,38px); max-width:720px; margin-bottom:22px;}
+  .cta-final .lead{font-size:16px; color:rgba(242,235,221,0.82); max-width:600px; margin-bottom:34px;}
+  .cta-final .below{font-size:13.5px; color:rgba(242,235,221,0.62); margin:18px 0 30px;}
+  .cta-final .trust{font-size:13px; color:rgba(242,235,221,0.5); max-width:600px; padding-top:22px; border-top:1px solid rgba(242,235,221,0.18);}
+
+  /* ---------- Booking form ---------- */
+  .form-card{
+    background:var(--card); box-shadow:var(--shadow); padding:44px;
+    display:grid; grid-template-columns:1fr 1fr; gap:22px;
+  }
+  @media (max-width:760px){.form-card{grid-template-columns:1fr; padding:28px 22px;}}
+  .field{display:flex; flex-direction:column; gap:8px;}
+  .field.full{grid-column:1 / -1;}
+  .field label{font-size:13.5px; font-weight:700; color:var(--ink);}
+  .field .opt{font-weight:400; color:#8a8073;}
+  .field input, .field select, .field textarea{
+    font-family:var(--sans); font-size:14.5px; padding:12px 14px; border:1px solid #d9d2c2;
+    background:#FCFAF5; color:var(--text); border-radius:var(--radius);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(198,161,91,0.18);
+  }
+  .field textarea{resize:vertical; min-height:96px;}
+  .time-slots{display:grid; gap:10px;}
+  .consent{
+    grid-column:1/-1; display:flex; gap:12px; align-items:flex-start; font-size:13.5px;
+    color:#4a5049; line-height:1.7; padding-top:6px;
+  }
+  .consent input{margin-top:3px;}
+  .consent a{color:var(--ink-2); text-decoration:underline;}
+  .form-msg{
+    grid-column:1/-1; font-size:14px; padding:14px 18px; border-left:2px solid var(--gold-deep);
+    background:rgba(198,161,91,0.08); display:none;
+  }
+  .form-msg.show{display:block;}
+  .form-submit{grid-column:1/-1; display:flex; justify-content:flex-start;}
+
+  /* ---------- Illustration placeholder ---------- */
+  .art-block{
+    border:1px dashed var(--line); background:repeating-linear-gradient(135deg, rgba(10,10,10,0.04) 0 12px, transparent 12px 24px);
+    display:flex; align-items:center; justify-content:center; text-align:center; padding:48px 24px;
+    min-height:220px; margin:44px 0;
+  }
+  .art-block .label{
+    font-size:13px; color:var(--ink-2); max-width:340px; line-height:1.8;
+  }
+  .art-block .label b{display:block; font-family:var(--serif); font-size:15px; margin-bottom:6px; color:var(--ink);}
+
+  /* ---------- Footer ---------- */
+  footer{background:#0A0A0A; color:rgba(242,235,221,0.72); padding:64px 0 110px;}
+  footer .foot-top{display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; padding-bottom:36px; border-bottom:1px solid rgba(242,235,221,0.12);}
+  footer .foot-name{font-family:var(--serif); color:var(--cream); font-size:18px; margin-bottom:8px;}
+  footer .foot-role{font-size:13.5px; color:rgba(242,235,221,0.6);}
+  .foot-oad{display:flex; align-items:center; gap:12px; margin-top:18px;}
+  .foot-oad-label{font-size:11.5px; color:rgba(242,235,221,0.48); text-transform:uppercase; letter-spacing:0.08em;}
+  .foot-oad-logo{height:26px; width:auto; background:#F2EBDD; padding:6px 10px; border-radius:3px;}
+  footer .foot-links{display:flex; gap:26px; flex-wrap:wrap; font-size:13.5px;}
+  footer .foot-links a{text-decoration:none; color:rgba(242,235,221,0.75);}
+  footer .foot-links a:hover{color:var(--gold);}
+  footer .foot-note{font-size:12.5px; line-height:1.9; color:rgba(242,235,221,0.42); padding-top:28px; max-width:680px;}
+
+  /* ---------- Mobile sticky CTA ---------- */
+  .sticky-cta{
+    display:none; position:fixed; left:0; right:0; bottom:0; z-index:90;
+    background:rgba(10,10,10,0.96); backdrop-filter:blur(8px);
+    padding:12px 18px; padding-bottom:calc(12px + env(safe-area-inset-bottom));
+    box-shadow:0 -8px 24px rgba(0,0,0,0.18);
+  }
+  .sticky-cta .btn{width:100%;}
+  @media (max-width:760px){
+    .sticky-cta{display:block;}
+    body{padding-bottom:74px;}
+  }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0; background:var(--gold); color:var(--ink);
+    padding:10px 16px; z-index:200; font-size:14px;
+  }
+  .skip-link:focus{left:12px; top:12px;}
+
+  :focus-visible{outline:2px solid var(--gold-deep); outline-offset:3px;}
+</style>
+
+<a class="skip-link" href="#main">跳至主要內容</a>
+
+<header class="nav" id="siteNav">
+  <div class="nav-inner">
+    <button class="nav-toggle" id="navToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#pain">企業痛點</a>
+      <a href="#diff">與傳統測評的差異</a>
+      <a href="#usecases">使用情境</a>
+      <a href="#science">科學基礎</a>
+      <a href="#faq">常見問題</a>
+      <a class="btn btn-gold nav-cta" href="#book" aria-label="進一步了解">進一步了解</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- SECTION 1 | HERO -->
+  <section class="hero" id="top" style="--hero-lines:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22560%22 height=%22560%22><g fill=%22none%22 stroke=%22%23C6A15B%22 stroke-width=%221%22 opacity=%220.6%22><circle cx=%22280%22 cy=%22280%22 r=%22240%22/><circle cx=%22280%22 cy=%22280%22 r=%22170%22/><circle cx=%22280%22 cy=%22280%22 r=%22100%22/><path d=%22M40 280 L520 280%22/><path d=%22M280 40 L280 520%22/></g></svg>');">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">《把資歷變資產》企業讀者限定</p>
+      <h1>績效開始下降以前，<br>人才錯配的訊號早已出現。</h1>
+      <p class="lead">履歷、績效與年度考核，記錄的是已經發生的結果。真正影響人才效能的，可能是自然特質、目前行為與職務要求之間，正在擴大的距離。</p>
+      <p class="prompt">人才動態管理協助企業在招募、晉升、培育與組織調整以前，先看清楚：</p>
+      <div class="hero-cards">
+        <div class="hero-card"><span class="n">01</span>是能力尚未到位？</div>
+        <div class="hero-card"><span class="n">02</span>是管理方式需要調整？</div>
+        <div class="hero-card"><span class="n">03</span>還是對的人，被放在不適合的位置？</div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="https://oad.ai/turnover-calculator/" target="_blank" rel="noopener">人員流動成本計算機 ↗</a>
+        <a class="btn btn-outline" href="#diff">新型動態管理運作邏輯</a>
+      </div>
+      <p class="hero-trust">先釐清問題，再決定是否需要進一步評測。</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 | 企業痛點 -->
+  <section class="section" id="pain">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">01 ｜ 企業痛點</span>
+        <h2>等到績效下降或人才離開，<br>通常已經錯過最好的調整時機。</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card"><span class="n">01</span><h3>招募時看起來很適合，進來後卻無法穩定發揮</h3><p>履歷與面試證明他做過什麼，卻不一定能看見：他的自然工作方式，能否長期承擔這個角色的要求。</p></div>
+        <div class="card"><span class="n">02</span><h3>高績效人才升任主管後，表現反而停滯</h3><p>會做事，不等於會透過別人完成；優秀的個人貢獻者，也不一定已經準備好承擔管理責任。</p></div>
+        <div class="card"><span class="n">03</span><h3>員工沒有明顯退步，投入感卻逐漸下降</h3><p>他可能仍能完成任務，只是需要長期使用不自然的行為維持表現，適應成本正在增加。</p></div>
+        <div class="card"><span class="n">04</span><h3>主管知道部屬「個性不同」，卻不知道具體怎麼帶</h3><p>報告提供了特質描述，主管真正需要的卻是：現在可以怎麼問、怎麼溝通、怎麼調整任務。</p></div>
+        <div class="card"><span class="n">05</span><h3>培訓投入不少，成效卻難以落地</h3><p>問題可能不在課程內容，而是沒有先確認：這個人真正需要發展的是能力、行為，還是工作配置。</p></div>
+        <div class="card"><span class="n">06</span><h3>接班名單有人選，卻無法判斷能否長期承擔</h3><p>目前績效好，不代表適合下一個角色；短期做得到，也不代表能以合理的適應成本長期維持。</p></div>
+      </div>
+      <p class="pullquote">企業真正需要的，不是再多一份人才標籤，<br>而是更早看見「人、行為與位置」之間正在發生什麼變化。</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 | 傳統測評 vs OAD -->
+  <section class="section" id="diff" style="background:#FBF9F5;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">02 ｜ 從靜態標籤走向動態理解</span>
+        <h2>從「這個人是什麼類型」<br>走向「他在這個位置如何發揮」</h2>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr><th>比較項目</th><th>一般單點式人格／行為測評</th><th>新型動態管理視角</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">主要觀察</th><td data-label="一般單點式人格／行為測評">個人特質或行為傾向</td><td data-label="新型動態管理視角">自然特質、工作中展現的行為與角色要求</td></tr>
+            <tr><th scope="row">輸出方式</th><td data-label="一般單點式人格／行為測評">類型、標籤或特質描述</td><td data-label="新型動態管理視角">連續尺度的行為資料與工作情境差距</td></tr>
+            <tr><th scope="row">核心問題</th><td data-label="一般單點式人格／行為測評">這個人是什麼樣的人？</td><td data-label="新型動態管理視角">他如何自然運作？工作要求他如何表現？兩者距離多大？</td></tr>
+            <tr><th scope="row">適配判斷</th><td data-label="一般單點式人格／行為測評">人與職位的靜態配對</td><td data-label="新型動態管理視角">特質、後天行為、現職與未來角色交叉比較</td></tr>
+            <tr><th scope="row">主管應用</th><td data-label="一般單點式人格／行為測評">理解溝通風格與優缺點</td><td data-label="新型動態管理視角">找出驅動因子、壓力反應、管理與教練切入點</td></tr>
+            <tr><th scope="row">HR協作</th><td data-label="一般單點式人格／行為測評">提供報告與共通語言</td><td data-label="新型動態管理視角">讓HR與用人主管針對具體情境討論</td></tr>
+            <tr><th scope="row">後續發展</th><td data-label="一般單點式人格／行為測評">容易停留在「知道」</td><td data-label="新型動態管理視角">轉化為面談、任務配置、培育與角色調整假設</td></tr>
+            <tr><th scope="row">決策定位</th><td data-label="一般單點式人格／行為測評">容易被誤用為定論</td><td data-label="新型動態管理視角">作為結構化資訊之一，仍需結合績效、能力與對話</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="max-width:760px; margin-top:28px; font-size:14.5px; color:#4a5049;">新型動態管理工具使用兩組相同的形容詞題目，分別蒐集個人的基準傾向，以及他認為工作要求自己展現的行為。兩者的差距，可以作為角色壓力、持續適應或環境摩擦的觀察訊號。</p>
+      <a class="source-link" href="https://oad.ai/guide-to-the-oad-survey-and-organizational-analysis/" target="_blank" rel="noopener">資料來源：OAD Survey Guide ↗</a>
+    </div>
+  </section>
+
+  <!-- SECTION 5 | 三層交叉比對 -->
+  <section class="section" style="background:#FBF9F5;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">03 ｜ 指導方向的具象參考指標</span>
+        <h2>同一個人，為什麼在不同位置<br>會出現完全不同的表現？</h2>
+      </div>
+      <div class="layers">
+        <div class="layer">
+          <span class="dot">01</span>
+          <div><h4>自然特質</h4><p>一個人較自然的工作方式，例如如何做決定、影響他人、面對壓力，以及偏好的速度、結構與責任方式。</p></div>
+        </div>
+        <div class="layer">
+          <span class="dot">02</span>
+          <div><h4>目前展現的行為</h4><p>為了回應主管、團隊與工作要求，他目前正在如何調整自己？</p></div>
+        </div>
+        <div class="layer">
+          <span class="dot">03</span>
+          <div><h4>角色與情境要求</h4><p>目前職位、主管、團隊與下一階段，真正要求他長期展現什麼？</p></div>
+        </div>
+      </div>
+      <ul class="qlist">
+        <li>哪些要求與他的自然優勢一致？</li>
+        <li>哪些行為已經透過經驗發展出來？</li>
+        <li>哪些差距需要刻意適應？</li>
+        <li>這種適應能否長期維持？</li>
+        <li>需要培訓、管理調整，還是重新配置角色？</li>
+      </ul>
+
+      <p class="step-kicker" style="text-align:center;">STEP 1 ｜ 理想職務特質與受測者本身特質的差距</p>
+      <div class="grid-2" style="margin-top:44px; align-items:stretch;">
+        <div class="card" style="display:flex; flex-direction:column;">
+          <h4 style="font-family:var(--serif); font-size:16px; color:var(--ink); margin-bottom:16px;">OAD官方示範報告：Primary Traits／Secondary Traits</h4>
+          <img src="img1.jpg" alt="OAD官方示範報告英文原版，顯示Primary Traits與Secondary Traits兩張圖表" style="border:1px solid var(--line-soft);">
+          <p style="font-size:12.5px; color:#8a8073; margin-top:14px;">英文原版示例，非受測者個人資料。</p>
+          <a class="source-link" href="https://oad.ai/profile/" target="_blank" rel="noopener" style="margin-top:auto;">資料來源：oad.ai/profile ↗</a>
+        </div>
+        <div class="card">
+          <h4 style="font-family:var(--serif); font-size:16px; color:var(--ink); margin-bottom:18px;">中文示意：該職務理想特質與該員目前展現的特質</h4>
+          <div style="display:flex; gap:18px; font-size:12.5px; color:#4a5049; margin-bottom:16px;">
+            <span style="display:inline-flex; align-items:center; gap:6px;"><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.5" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/></svg>該職務理想特質</span>
+            <span style="display:inline-flex; align-items:center; gap:6px;"><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.5" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/></svg>該員目前展現的特質</span>
+          </div>
+          <svg viewBox="0 0 680 580" role="img" aria-label="示意圖：主導性、外向性、耐心度、細節導向、應變彈性、情緒掌控、思考風格七項構面，該職務理想特質與該員目前展現的特質之間的落差" style="width:100%; height:auto; overflow:visible;">
+            <title>該職務理想特質與該員目前展現的特質落差示意圖</title>
+
+            <text x="0" y="14" font-size="11" style="fill:var(--gold-deep); font-family:var(--lat); font-style:italic; font-weight:600; letter-spacing:0.04em;">主要特質</text>
+            <text x="170" y="34" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">主導性</text>
+            <text x="160" y="68" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">順從配合</text>
+            <line x1="170" y1="64" x2="570" y2="64" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="68" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">堅定果斷</text>
+            <line x1="450" y1="64" x2="490" y2="64" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="450" cy="64" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+            <circle cx="490" cy="64" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+
+            <text x="170" y="112" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">外向性</text>
+            <text x="160" y="146" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">內斂分析</text>
+            <line x1="170" y1="142" x2="570" y2="142" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="146" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">外向社交</text>
+            <line x1="330" y1="142" x2="410" y2="142" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="330" cy="142" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+            <circle cx="410" cy="142" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+
+            <text x="170" y="190" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">耐心度</text>
+            <text x="160" y="224" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">急躁善變</text>
+            <line x1="170" y1="220" x2="570" y2="220" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="224" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">穩定耐心</text>
+            <line x1="290" y1="220" x2="410" y2="220" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="410" cy="220" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+            <circle cx="290" cy="220" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+
+            <text x="170" y="268" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">細節導向</text>
+            <text x="160" y="302" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">授權彈性</text>
+            <line x1="170" y1="298" x2="570" y2="298" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="302" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">結構守規</text>
+            <line x1="290" y1="298" x2="410" y2="298" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="290" cy="298" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+            <circle cx="410" cy="298" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+
+            <line x1="0" y1="330" x2="680" y2="330" stroke="rgba(10,10,10,0.1)" stroke-width="1"/>
+            <text x="0" y="356" font-size="11" style="fill:var(--gold-deep); font-family:var(--lat); font-style:italic; font-weight:600; letter-spacing:0.04em;">次要特質</text>
+
+            <text x="170" y="376" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">應變彈性</text>
+            <text x="160" y="410" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">一致穩定</text>
+            <line x1="170" y1="406" x2="570" y2="406" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="410" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">靈活多變</text>
+            <line x1="370" y1="406" x2="490" y2="406" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="370" cy="406" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+            <circle cx="490" cy="406" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+
+            <text x="170" y="454" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">情緒掌控</text>
+            <text x="160" y="488" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">感性同理</text>
+            <line x1="170" y1="484" x2="570" y2="484" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="488" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">理性冷靜</text>
+            <line x1="410" y1="484" x2="490" y2="484" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="410" cy="484" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+            <circle cx="490" cy="484" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+
+            <text x="170" y="532" font-size="13.5" style="fill:var(--ink); font-family:var(--serif); font-weight:600;">思考風格</text>
+            <text x="160" y="566" text-anchor="end" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">務實具體</text>
+            <line x1="170" y1="562" x2="570" y2="562" stroke="rgba(10,10,10,0.08)" stroke-width="1"/>
+            <text x="580" y="566" font-size="11.5" style="fill:#8a8073; font-family:var(--sans);">抽象創新</text>
+            <line x1="370" y1="562" x2="450" y2="562" stroke="var(--gold-deep)" stroke-width="2" opacity="0.6"/>
+            <circle cx="370" cy="562" r="6" style="fill:var(--gold); stroke:var(--gold-deep); stroke-width:1"/>
+            <circle cx="450" cy="562" r="6" style="fill:var(--card); stroke:var(--ink); stroke-width:1.6"/>
+          </svg>
+          <p style="font-size:12.5px; color:#8a8073; margin-top:14px;">示意圖，非真實測評數值。七項構面名稱與兩端敘述翻譯自OAD官方報告原文；落點僅為示意，實際結果因人而異。</p>
+        </div>
+      </div>
+
+      <p class="pullquote" style="margin-left:auto; margin-right:auto; text-align:center; max-width:640px; border-top:none; padding-top:0;">能夠做到，不等於做起來不需要消耗。</p>
+      <p style="max-width:640px; margin:20px auto 0; text-align:center; font-size:14.5px; color:#4a5049;">動態管理關注的是：當角色、主管與工作要求改變，一個人是否仍能長期、穩定地發揮價值。</p>
+
+      <div class="section-head" style="margin-top:56px; max-width:760px; margin-left:auto; margin-right:auto; text-align:center;">
+        <p class="step-kicker" style="text-align:center;">STEP 2 ｜ 解讀差距</p>
+        <h3 style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-top:6px;">理解特質差距的六步驟快速解讀</h3>
+        <p style="font-size:14.5px; color:#4a5049; margin-top:10px;">提供企業內部理解報告落點時的基本判讀順序，並非鼓勵自行對員工做臨床式判讀。</p>
+      </div>
+      <div class="timeline" style="margin-top:32px; max-width:760px;">
+        <div class="tl-step">
+          <span class="tl-num">01</span>
+          <div><h4>先看四項主要特質的相對高低</h4><p>主導性、外向性、耐心度、細節導向這四項之間，哪一項最突出（主特質）、哪一項次之（次要特質）、哪些相對不明顯。重點是彼此的相對關係，不是單一分數的高低。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">02</span>
+          <div><h4>主導性 vs 細節導向：通才或專才傾向</h4><p>主導性高於細節導向，傾向通才型，能同時處理多條線、重視整體方向；細節導向高於主導性，傾向專才型，重視精確與流程；兩者相當，則兩種傾向兼具。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">03</span>
+          <div><h4>外向性 vs 細節導向：社交或技術導向</h4><p>外向性高於細節導向，傾向透過人際互動完成工作；細節導向高於外向性，傾向透過專業與流程完成工作。兩者相當時，若同屬主特質，社交傾向較明顯；若同屬次要特質，技術傾向較明顯。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">04</span>
+          <div><h4>耐心度 vs 主導性：步調與耐心</h4><p>耐心度高於主導性，步調較穩定從容；耐心度低於主導性，步調較快、傾向多工並進。兩者相當時，若同屬次要特質，急迫感與多工傾向更明顯；若同屬主特質，耐心與按部就班的傾向更明顯。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">05</span>
+          <div><h4>應變彈性：能調整多少、能撐多久</h4><p>分數偏低，行為模式較穩定、不常因情境調整；中等，能依情境做一定程度調整；偏高，能因應不同情境靈活調整行為，且能長時間維持——這也是判斷「適應成本」的關鍵指標。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">06</span>
+          <div><h4>情緒掌控與思考風格：感性理性、務實創新</h4><p>情緒掌控分數偏低，情感表達較外顯、感性；偏高，較理性冷靜、自我克制。思考風格分數偏低，較務實、依循既有做法；偏高，較具創意、願意嘗試新方法。</p></div>
+        </div>
+      </div>
+
+      <p class="pullquote" style="margin-left:auto; margin-right:auto; text-align:center; max-width:680px; border-top:none; padding-top:0;">七項特質模型具備40年歷史、信效度研究基礎（Big Five/Cattell理論）</p>
+      <p style="max-width:680px; margin:20px auto 0; text-align:center; font-size:14.5px; color:#4a5049;">協助你用清晰指標，和團隊展開對話。</p>
+
+      <div class="section-head" style="margin-top:56px; max-width:760px; margin-left:auto; margin-right:auto; text-align:center;">
+        <p class="step-kicker" style="text-align:center;">STEP 3 ｜ 具體可執行的指導方向</p>
+        <h2>HR與主管需要的，不只是「看懂一個人」，<br>而是知道接下來可以怎麼談、怎麼帶。</h2>
+      </div>
+      <div class="contrast">
+        <div class="contrast-col old">
+          <h4>傳統模糊評語</h4>
+          <ul>
+            <li>他不夠積極</li>
+            <li>他抗壓性不好</li>
+            <li>他沒有企圖心</li>
+            <li>兩個人個性不合</li>
+          </ul>
+        </div>
+        <div class="contrast-col new">
+          <h4>動態管理進一步釐清的問題</h4>
+          <ul>
+            <li>是自然驅動不足，還是角色缺乏決策空間？</li>
+            <li>是能力不足，還是主管的溝通方式不容易被對方接收？</li>
+            <li>是短期壓力反應，還是長期的人職錯配？</li>
+            <li>是個人問題，還是多人都承受相同的角色設計壓力？</li>
+          </ul>
+        </div>
+      </div>
+
+      <style>
+        .fan-wrap{ position:relative; max-width:900px; margin:52px auto 0; height:480px; }
+        .fan-card{
+          position:absolute; top:0; width:260px; min-height:400px;
+          background:var(--card); border:1px solid var(--line-soft); box-shadow:var(--shadow);
+          display:flex; flex-direction:column; overflow:hidden;
+        }
+        .fan-card img{ width:100%; height:190px; object-fit:cover; object-position:top; display:block; }
+        .fan-card .fan-body{ padding:18px 20px 22px; }
+        .fan-card .fan-en{ font-family:var(--serif); font-size:14px; color:var(--ink); line-height:1.4; margin-bottom:6px; }
+        .fan-card .fan-zh{ font-family:var(--sans); font-size:12px; color:#8a8073; line-height:1.55; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--line-soft); }
+        .fan-card .fan-copy{ font-size:11.5px; line-height:1.7; color:#4a5049; }
+        .fan-card .fan-copy p{ margin-bottom:8px; }
+        .fan-card .fan-copy b{ color:var(--ink); font-weight:700; }
+        .fan-1{ left:0; transform:rotate(-6deg); z-index:1; }
+        .fan-2{ left:290px; transform:rotate(0deg); z-index:2; box-shadow:0 24px 56px rgba(10,10,10,0.18); }
+        .fan-3{ left:580px; transform:rotate(6deg); z-index:1; }
+        @media (max-width:940px){
+          .fan-wrap{ height:auto; display:grid; gap:20px; }
+          .fan-card{ position:static; width:100%; transform:none !important; box-shadow:var(--shadow) !important; }
+        }
+      </style>
+      <p style="text-align:center; font-family:var(--serif); font-size:16px; color:var(--ink); margin:52px 0 0;">報告部分內容示意</p>
+      <div class="fan-wrap" style="margin-top:16px;" role="img" aria-label="三份報告頁面示意：How the Employee Is Wired、How the Employee Sees The Current World、What Drives the Employee — Guide to Motivating Needs">
+        <div class="fan-card fan-1">
+          <img src="img2.jpg" alt="">
+          <div class="fan-body">
+            <div class="fan-en">How the Employee<br>Is Wired</div>
+            <div class="fan-zh">受測者的思維底層邏輯與天性本能</div>
+            <div class="fan-copy">
+              <p><b>指標價值：</b>該名受測者不受工作要求影響、最自然的決策與互動方式。</p>
+              <p><b>企業節省的成本與風險：</b>招募與配置前，先看見這個人壓力下最可能出現的反應，減少「面試表現好、長期卻不適配」造成的重複招募與訓練成本。</p>
+            </div>
+          </div>
+        </div>
+        <div class="fan-card fan-2">
+          <img src="img3.jpg" alt="">
+          <div class="fan-body">
+            <div class="fan-en">How the Employee Sees<br>The Current World</div>
+            <div class="fan-zh">受測者眼中的當前世界</div>
+            <div class="fan-copy">
+              <p><b>指標價值：</b>這個人目前正在如何調整自己，回應主管與工作要求。</p>
+              <p><b>企業節省的成本與風險：</b>及早看見他正在哪些地方勉強自己維持表現，在投入感下降或提出離職之前提前介入，而不是事後補救。</p>
+            </div>
+          </div>
+        </div>
+        <div class="fan-card fan-3">
+          <img src="img4.jpg" alt="">
+          <div class="fan-body">
+            <div class="fan-en">What Drives the Employee<br>— Guide to Motivating Needs</div>
+            <div class="fan-zh">引發受測者內在需求的指導指南</div>
+            <div class="fan-copy">
+              <p><b>指標價值：</b>什麼樣的環境、授權方式，最能讓這個人穩定發揮。</p>
+              <p><b>企業節省的成本與風險：</b>縮短主管摸索「怎麼帶這個人」的時間，減少因為「帶錯方式」流失人才、拖慢團隊產出。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="max-width:680px; margin:18px auto 0; text-align:center; font-size:12.5px; color:#8a8073;">節錄自OAD官方示範報告英文原版，僅供說明報告呈現形式。</p>
+
+      <p class="pullquote">從「我知道他們不一樣」，<br>走向「我更清楚現在可以怎麼問、怎麼談、怎麼調整」。</p>
+    </div>
+  </section>
+
+  <!-- SECTION 5b | 平台功能一覽 -->
+  <section class="section" style="background:#FBF9F5;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">04 ｜ 平台如何產生這些行為資料</span>
+        <h2>從診斷方法，到具體工具</h2>
+      </div>
+      <p style="max-width:720px; font-size:14.5px; color:#4a5049; margin-bottom:36px;">人才動態管理不是抽象概念。以下依OAD官網最新公告整理，分為「目前可用」與「規劃中」，避免把尚未上線的功能誤植為已上線。</p>
+
+      <div class="grid-3">
+        <div class="card"><h3>行為診斷</h3><p>約7分鐘的行為診斷，採「選詞」而非「是非題」形式，觀察一個人在壓力與人際互動下的自然反應。</p></div>
+        <div class="card"><h3>績效表現輪廓</h3><p>將結果量化為多個行為構面，並與角色基準做比對，呈現差距而非標籤。</p></div>
+        <div class="card"><h3>健康指標</h3><p>辨識過度耗用、投入不足、離職傾向與壓力等訊號，協助在績效明顯下滑以前示警。</p></div>
+        <div class="card"><h3>ATS／HRIS與工作流程整合</h3><p>目前與Greenhouse、Workday、BambooHR等系統整合，並支援Slack、MS Teams等工作流程串接。</p></div>
+        <div class="card"><h3>AI輔助教練案例（v1.5）</h3><p>以credit制提供，協助主管針對具體績效問題，找到可以切入的溝通與帶人方式。</p></div>
+      </div>
+
+      <div class="callout warn" style="margin-top:32px;">
+        <strong>規劃中，即將上線（v2.0）：</strong>
+        <ul class="dash-list" style="margin-top:12px;">
+          <li>Performance Drift Detection —— 連結CRM資料，及早示警行為訊號變化。</li>
+          <li>Manager Coaching Playbook —— 依每位員工的行為剖析，提供更具體的下一步建議。</li>
+          <li>Salesforce、HubSpot等CRM整合。</li>
+          <li>專屬行為語言模型，結合Claude等大型語言模型使用。</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px; color:#6b6459;">以上規劃中功能之實際上線時間與內容，以OAD官方公告為準。</p>
+      </div>
+      <a class="source-link" href="https://oad.ai/platform-overview/" target="_blank" rel="noopener">資料來源：oad.ai/platform-overview ↗</a>
+    </div>
+  </section>
+
+  <!-- SECTION 5c | Profile 內容示例 -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">05 ｜ 拿到手上的，是什麼</span>
+        <h2>一份行為剖析報告，實際上呈現什麼？</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card"><h3>多項行為構面的量化分數</h3><p>將自然特質與目前行為，拆解為多個可比較的構面分數，而不是單一標籤或類型。</p></div>
+        <div class="card"><h3>與角色、高績效者的比對</h3><p>把個人分數對照角色基準與同類職務中高績效者的模式，具體看出差距在哪裡。</p></div>
+        <div class="card"><h3>錯誤配置風險的量化參考</h3><p>提供錯誤配置對產出、時間與團隊產能可能造成的影響，作為對話的量化起點，而非精算報價。</p></div>
+        <div class="card"><h3>奠基於大規模比較基準</h3><p>比對基礎來自OAD官方所稱超過1,000萬筆歷史評測資料，細節仍建議於對談或技術文件中進一步確認。</p></div>
+        <div class="card">
+          <h3>他需要什麼樣的工作環境，才能穩定發揮？</h3>
+          <ul class="dash-list" style="margin-top:10px;">
+            <li>決策的自主權有多大</li>
+            <li>能不能表達自己的看法</li>
+            <li>細節與跟催工作，能不能授權出去</li>
+            <li>例行任務與變動任務的比例</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>主管可以怎麼帶，而不只是「知道他是誰」？</h3>
+          <ul class="dash-list" style="margin-top:10px;">
+            <li>什麼情境該多給空間，什麼情境要給明確清單</li>
+            <li>用什麼方式溝通，他比較聽得進去</li>
+            <li>壓力上升時，該先調整任務還是溝通方式</li>
+            <li>這個行為長期維持，是否需要額外支持</li>
+          </ul>
+        </div>
+      </div>
+      <a class="source-link" href="https://oad.ai/profile/" target="_blank" rel="noopener">資料來源：oad.ai/profile ↗</a>
+
+      <style>
+        .dim-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-top:48px; }
+        .dim-card{ background:var(--card); border:1px solid var(--line-soft); box-shadow:var(--shadow); min-width:0; }
+        .dim-bar{ height:4px; }
+        .dim-body{ padding:20px 18px 22px; }
+        .dim-body h4{ font-family:var(--serif); font-size:16px; color:var(--ink); margin-bottom:4px; }
+        .dim-body .dim-sub{ font-family:var(--lat); font-style:italic; font-size:12px; color:#5b6b7a; margin-bottom:12px; }
+        .dim-body p{ font-size:12.5px; line-height:1.7; color:#4a5049; margin-bottom:14px; }
+        .dim-predicts{ background:#F4F1EA; border-radius:4px; padding:12px 14px; }
+        .dim-predicts .lbl{ font-family:var(--lat); font-style:italic; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:10px; color:#8a8073; display:block; margin-bottom:6px; }
+        .dim-predicts p{ font-size:12px; color:#4a5049; margin-bottom:0; }
+        @media (max-width:960px){ .dim-grid{ grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:560px){ .dim-grid{ grid-template-columns:1fr; } }
+      </style>
+      <div class="section-head" style="margin-top:56px;">
+        <span class="eyebrow">五大構面</span>
+        <h3 style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-top:6px;">OAD衡量什麼——以及為什麼每個構面都能預測績效</h3>
+        <p style="font-size:14.5px; color:#4a5049; margin-top:10px; max-width:760px;">每個構面都經過38年、40多個產業的實際績效資料獨立驗證。五項構面共同組成一份行為指紋，用來預測一個人在特定職務中「會如何表現」，而不只是「看起來合不合適」。</p>
+      </div>
+      <div class="dim-grid">
+        <div class="dim-card">
+          <div class="dim-bar" style="background:#2C4A6E;"></div>
+          <div class="dim-body">
+            <h4>驅動力</h4>
+            <div class="dim-sub">績效的引擎</div>
+            <p>衡量內在動機與目標導向行為的強度。驅動力高，預示著即使遭遇拒絕仍能持續投入、主動出擊，並在業務型角色中達成配額目標。</p>
+            <div class="dim-predicts"><span class="lbl">高分代表</span><p>那位上一季被你刷掉的業務？他很可能是你的下一位頂尖業務。你永遠不會知道。</p></div>
+          </div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-bar" style="background:#8AA33C;"></div>
+          <div class="dim-body">
+            <h4>影響力</h4>
+            <div class="dim-sub">如何驅動他人</div>
+            <p>衡量說服、激勵與建立關係的自然傾向。預示著面對客戶時的表現、領導力的浮現，以及在複雜利害關係人環境中的應對能力。</p>
+            <div class="dim-predicts"><span class="lbl">高分代表</span><p>業務、客服與人員管理職務的優異表現。</p></div>
+          </div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-bar" style="background:var(--ink);"></div>
+          <div class="dim-body">
+            <h4>韌性</h4>
+            <div class="dim-sub">如何承受壓力</div>
+            <p>衡量在壓力、拒絕與不確定性下維持表現的行為能力。是留任率與高壓職務下穩定產出的關鍵預測指標。</p>
+            <div class="dim-predicts"><span class="lbl">高分代表</span><p>留任率、穩定度，以及高壓下的表現。</p></div>
+          </div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-bar" style="background:#4A90C4;"></div>
+          <div class="dim-body">
+            <h4>結構性</h4>
+            <div class="dim-sub">如何在流程中運作</div>
+            <p>衡量對系統化、程序化與規則導向環境的偏好。結構性高，預示著在需要按既定標準穩定執行的職務中，具備營運上的可靠度。</p>
+            <div class="dim-predicts"><span class="lbl">高分代表</span><p>營運、法遵與高執行密度職務中的優異表現。</p></div>
+          </div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-bar" style="background:var(--gold-deep);"></div>
+          <div class="dim-body">
+            <h4>領導力</h4>
+            <div class="dim-sub">如何培育他人</div>
+            <p>衡量培養、指導他人並為他人成果負責的行為驅動力。預示管理成效——且與個人貢獻者本身的績效表現無關。</p>
+            <div class="dim-predicts"><span class="lbl">高分代表</span><p>管理成效與團隊培育能力。</p></div>
+          </div>
+        </div>
+      </div>
+      <p style="max-width:720px; margin-top:32px; font-size:14.5px; color:#4a5049;">這份報告的用途，是提供主管與HR在對談時可以具體討論的量化依據——不是用來單方面下結論，也不會取代績效證據、結構化面談與企業自身的用人判斷。</p>
+      <a class="source-link" href="https://oad.ai/the-science/" target="_blank" rel="noopener">資料來源：oad.ai/the-science ↗</a>
+    </div>
+  </section>
+
+  <!-- SECTION 6 | 成本價值 -->
+  <section class="section band-dark">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">成本觀點</span>
+        <h2>真正的成本，不只是一份評測多少錢。</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>錯誤招募成本</h3><p>招募、磨合、培訓、管理時間與重新招募的成本。</p></div>
+        <div class="card"><h3>錯誤培育成本</h3><p>在沒有釐清問題以前，持續投入不適合的課程與資源。</p></div>
+        <div class="card"><h3>人才錯配成本</h3><p>對的人被放在不適合的位置，績效可能暫時維持，投入感與長期價值卻逐步下降。</p></div>
+      </div>
+      <p class="pullquote" style="border-top-color:rgba(242,235,221,0.2); color:var(--cream);">成本優勢不只在評測費用，而在於減少錯誤招募、無效培訓與人才錯配造成的反覆投入。</p>
+      <p style="max-width:720px; margin-top:24px; font-size:14px; color:rgba(242,235,221,0.68);">新型動態管理工具目前採依團隊規模與使用量配置的credit模式，而非以每位系統使用者收費；實際方案仍須依企業規模與需求確認。</p>
+      <a class="source-link" href="https://oad.ai/pricing/" target="_blank" rel="noopener" style="color:var(--gold); border-color:var(--gold);">來源：oad.ai/pricing ↗</a>
+
+      <div style="margin-top:36px; padding:26px 28px; border:1px solid rgba(242,235,221,0.22); background:rgba(242,235,221,0.05); display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
+        <div style="max-width:520px;">
+          <p style="font-family:var(--serif); font-size:16px; color:var(--cream); margin-bottom:6px;">想先大致估算離職與錯配的成本？</p>
+          <p style="font-size:13.5px; color:rgba(242,235,221,0.68);">新型動態管理工具提供一個延伸試算工具，協助粗估人才流動的財務影響，可作為對談前的參考起點，非正式估價。</p>
+        </div>
+        <a class="btn btn-outline" href="https://oad.ai/turnover-calculator/" target="_blank" rel="noopener">開啟人才流動成本試算 ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 | 使用情境 -->
+  <section class="section" id="usecases">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">06 ｜ 使用情境</span>
+        <h2>哪些人才決策，適合使用動態管理工具進行參考？</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>人才盤點與招募適配</h3><p>辨識誰正在成長、誰正在消耗、誰可能只是被放錯位置；也在履歷、面試與專業能力之外，補上工作行為與角色適配的結構化資料。</p></div>
+        <div class="card"><h3>接班與晉升評估</h3><p>比較現職表現、自然特質與下一個角色要求，不只用現在的績效預測未來。</p></div>
+        <div class="card"><h3>新任主管發展</h3><p>看見從個人貢獻者轉為主管後，哪些行為可以延伸，哪些需要重新建立。</p></div>
+        <div class="card"><h3>團隊衝突與跨部門協作</h3><p>把「個性不合」拆解為決策速度、資訊需求、影響方式與角色期待的差異。</p></div>
+        <div class="card"><h3>留才與投入感下降</h3><p>在績效明顯下降或提出離職以前，辨識角色壓力、動機位移及適配變化。</p></div>
+        <div class="card"><h3>ESG公司治理</h3><p>金管會持續強化上市櫃公司的永續與公司治理資訊揭露；在永續報告書及公司治理相關揭露中，員工新進與離職情形、教育訓練成果，以及董事與重要管理階層的接班規劃，都是企業日益重視的人力資本議題。人才動態管理平台提供量化參考指標，提供可佐證的決策脈絡。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8 | 適合 / 不適合 -->
+  <section class="section" style="background:#FBF9F5;">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 style="font-size:clamp(34px,5vw,48px);">適合對象</h2>
+      </div>
+      <div class="suit">
+        <div class="suit-col yes">
+          <h4>適合</h4>
+          <ul>
+            <li>50人以上的企業或事業單位</li>
+            <li>正在進行關鍵人才盤點、接班布局或組織調整</li>
+            <li>HR已導入測評，但主管不知道如何落地使用</li>
+            <li>關鍵職位的招募與配置成本高</li>
+            <li>團隊投入感、協作或穩定度開始下降</li>
+            <li>希望HR與用人主管建立共同的人才判斷語言</li>
+            <li>需準備ESG永續報告書，關注接班布局與人才留任的企業</li>
+          </ul>
+        </div>
+        <div class="suit-col no">
+          <h4>可能不適合</h4>
+          <ul>
+            <li>希望只靠一份測評決定錄取、晉升或淘汰</li>
+            <li>想用人格標籤替代能力與績效證據</li>
+            <li>不願提供職務要求、管理情境或實際案例</li>
+            <li>已經決定答案，只希望測評替決策背書</li>
+            <li>難對「優秀表現」形成一致標準的專案型或高度依賴個人手藝的工作。</li>
+          </ul>
+        </div>
+      </div>
+      <p style="max-width:640px; margin-top:32px; font-size:14.5px; color:#4a5049;">測評的目的不是替企業決定答案，而是提供更完整、可以被討論的資訊。</p>
+    </div>
+  </section>
+
+  <!-- SECTION 9 | 科學基礎 -->
+  <section class="section" id="science">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">07 ｜ 信度、效度與使用邊界</span>
+        <h2>不是相信一份報告，<br>而是確認它能支持什麼決策。</h2>
+      </div>
+
+      <div class="sci-basics">
+        <div class="sci-basic"><h4>信度</h4><p>在合理條件下重複使用時，工具是否能穩定測得相近的構念，而不是被偶然因素大幅影響。</p></div>
+        <div class="sci-basic"><h4>效度</h4><p>工具是否測到它宣稱要測的內容，並能為特定的人才決策提供合理證據。</p></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card"><h3>效標關聯效度</h3><p>檢查評測分數與工作表現、留任、產出及主管評價之間的關聯。</p></div>
+        <div class="card"><h3>內容效度</h3><p>確認題目測量的是工作相關的行為驅動，而非認知能力或受保護的人口特徵。</p></div>
+        <div class="card"><h3>建構效度</h3><p>以因素分析檢視行為構面的結構是否穩定。</p></div>
+      </div>
+
+      <div class="callout" style="margin-top:44px;">
+        本動態管理工具，目前累積超過1,000萬次評測，橫跨40多個國家，並稱每五年進行一次第三方驗證，最近一次於2023年完成。
+        <a class="source-link" href="https://oad.ai/the-science/" target="_blank" rel="noopener">來源：oad.ai/the-science ↗</a>
+      </div>
+
+      <div class="callout warn">
+        <strong>使用邊界：</strong>新型動態管理工具不應作為錄取、晉升、淘汰或人才配置的唯一依據。評測結果應搭配職務分析、能力與績效證據、結構化面談，以及HR與用人主管的專業判斷。
+        <a class="source-link" href="https://oad.ai/security-compliance/" target="_blank" rel="noopener">來源：oad.ai/security-compliance ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10 | 對談流程 -->
+  <section class="section" style="background:#FBF9F5;" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">08 ｜ 對談流程</span>
+        <h2>不是先決定導入工具，<br>而是先確認真正需要處理的問題。</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-step">
+          <span class="tl-num">01</span>
+          <div><h4>填寫企業現況</h4><p>提供公司與團隊規模、目前的人才課題、涉及職位，以及已使用的測評或人才制度。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">02</span>
+          <div><h4>進行線上對談</h4><p>以30～45分鐘了解問題目前如何被看見、現有資料能回答什麼，以及還缺少哪些關鍵資訊。</p></div>
+        </div>
+        <div class="tl-step">
+          <span class="tl-num">03</span>
+          <div>
+            <h4>提出下一步建議</h4>
+            <p>可能結果：</p>
+            <ul>
+              <li>暫時不需要導入評測</li>
+              <li>先釐清職務或管理問題</li>
+              <li>選擇小規模對象進行評測與解讀</li>
+              <li>進一步規劃人才盤點、團隊或接班應用</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:48px;">
+        <a class="btn btn-outline-ink" href="#book">進一步了解</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 11 | FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">常見問題</span>
+        <h2>你可能想先知道</h2>
+      </div>
+      <div class="faq">
+        <details name="faq-group">
+          <summary>預約線上對談會推銷這套工具嗎？<span class="plus"></span></summary>
+          <p class="faq-body">不會。對談會先了解你目前的人才課題、企業規模與既有制度，協助釐清問題可能出在能力、管理方式，還是人才配置。只有在評測確實能補足現有資訊時，才會討論後續應用方式。</p>
+        </details>
+        <details name="faq-group">
+          <summary>新型動態管理工具可以直接判斷一個人是否適任嗎？<span class="plus"></span></summary>
+          <p class="faq-body">不建議用任何單一測評斷論您的人才是否適任。新型動態管理工具提供的是驅動工作動機相關的行為資料，仍需搭配職務要求、專業能力、績效證據、結構化面談，以及HR與用人主管的判斷。</p>
+        </details>
+        <details name="faq-group">
+          <summary>新型動態管理工具和一般人格測驗有什麼不同？<span class="plus"></span></summary>
+          <p class="faq-body">一般人格測驗多半描述一個人的特質或類型；新型動態管理工具則同時觀察個人的自然傾向，以及他認為目前工作要求自己展現的行為。兩者的差距，可以作為角色壓力、長期適應與人才配置的討論依據。</p>
+        </details>
+        <details name="faq-group">
+          <summary>評測需要幾分鐘？<span class="plus"></span></summary>
+          <p class="faq-body">約10分鐘。題目採選詞形式作答，不需要長時間思考，建議在不被打斷的情況下完成，答案品質會更接近真實狀態。</p>
+        </details>
+        <details name="faq-group">
+          <summary>有中文介面嗎？<span class="plus"></span></summary>
+          <p class="faq-body">有。新型動態管理工具提供包含中文在內的多語言版本，介面與題目皆可切換為中文使用。實際版本仍會依貴公司使用族群，在對談中一併確認。</p>
+        </details>
+        <details name="faq-group">
+          <summary>1,000萬筆資料多是歐美的數據，適合華人或亞洲企業嗎？<span class="plus"></span></summary>
+          <p class="faq-body">這也是我們認為特別值得說清楚的一點。其實不只新型動態管理工具，現行大多數管理學理論本來就多半源自西方企業實踐。但東方對「人」的理解從來不是空白的——《易經》談陰陽動態平衡，儒家談中庸，關注的本來就是「因時因地制宜」，而不是非黑即白的定論。<br><br>新型動態管理工具採用的是「強迫選擇」（forced-choice）行為測量格式，而不是「你同不同意這個特質標籤」的量表題型——問的是「你比較傾向怎麼做」，而不是「請幫這個特質打幾分」。這個設計本身，正是心理測量學界研究用來降低不同文化「評分習慣落差」（response style bias）的方向之一，跨文化比較研究也持續在進行，例如針對強迫選擇格式的跨國樣本比較。以行為出發、而不是以特質標籤出發，某種程度上更接近東方看待人的方式：看一個人在具體情境下如何動態調整，而不是把人一次性歸類。<br><br>當然，這不代表完全沒有文化差異需要留意。OAD官網並未公開亞洲樣本的詳細佔比，這部分我們仍建議在對談或技術文件審查時，依貴公司實際使用族群進一步確認。<br><a class="source-link" href="https://oad.ai/the-science/" target="_blank" rel="noopener" style="margin-top:14px;">來源：oad.ai/the-science ↗</a></p>
+        </details>
+        <details name="faq-group">
+          <summary>哪些企業適合預約這場對談？<span class="plus"></span></summary>
+          <p class="faq-body">較適合50人以上，正在進行關鍵人才盤點、接班布局、重要職位招募、主管培育或組織調整的企業。若還不確定問題是否適合使用評測，也可以先透過對談釐清。</p>
+        </details>
+        <details name="faq-group">
+          <summary>參加對談以前，需要準備什麼？<span class="plus"></span></summary>
+          <p class="faq-body">只需簡單提供企業與團隊規模、目前最想處理的人才課題、涉及的職位或對象，以及過去曾使用的測評或管理方式。不需要事先購買系統或完成評測。</p>
+        </details>
+        <details name="faq-group">
+          <summary>評測資料會如何被使用？<span class="plus"></span></summary>
+          <p class="faq-body">資料僅用於約定的評測、解讀與人才管理討論，不會在未經同意的情況下提供給無關第三方。若進一步導入，企業也應事先向參與者說明評測目的、使用範圍與資料保存方式。</p>
+        </details>
+        <details name="faq-group">
+          <summary>有免費試用嗎？<span class="plus"></span></summary>
+          <p class="faq-body">已為台灣企業讀者跟SIFU DAN申請到「頂尖績效者免費輪廓分析」（Free Top Performer Profile），完成評估只需七分鐘，24 小時內即可取得結果，不需要提供信用卡，也不需要任何合作承諾。</p>
+        </details>
+        <details name="faq-group">
+          <summary>導入費用很高嗎？<span class="plus"></span></summary>
+          <p class="faq-body">這是一個很值得關切的課題。相信貴公司在進行一項投資的決策，都會計算ROI（投資報酬率），所以，最終還是回歸到使用體驗與成效。新型動態管理工具採用依團隊規模與使用量配置的credit制，依企業規模（建議50人以上）、導入範圍與整合需求，提供不同的年度方案，預估每年總投資是一萬美金起跳。雖然不算高，但比起「投資金額」，更值得您先釐清的是：一次錯誤招募、一次無效培訓，或一位關鍵人才的錯配，實際會讓您付出多少成本。這也是我們建議先透過對談確認需求，並提供一位關鍵人才試用、讓貴公司實際體驗的原因——希望您投資在刀口上，對我們來說，也是持續累積正面實績的加分。您也可以先到<a href="https://oad.ai/turnover-calculator/" target="_blank" rel="noopener" style="color:var(--ink-2); text-decoration:underline;">人才成本試算工具</a>，大致估算一下。<br><a class="source-link" href="https://oad.ai/pricing/" target="_blank" rel="noopener" style="margin-top:14px;">Pricing for Revenue Teams｜OAD.ai ↗</a></p>
+        </details>
+        <details name="faq-group">
+          <summary>能與公司原本的HRIS相容嗎？<span class="plus"></span></summary>
+          <p class="faq-body">系統可依企業方案提供ATS／HRIS整合，實際串接方式會在對談中依貴公司現有系統進一步確認。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 12 | 最終 CTA -->
+  <section class="cta-final">
+    <div class="wrap">
+      <h2>在投入更多招募、培育與留才成本以前，<br>先確認問題到底在哪裡。</h2>
+      <p class="lead">如果你還不確定，現在面對的是能力問題、管理問題，還是人才配置問題，可以先透過一場線上對談，整理現況與需要補足的資訊。</p>
+      <a class="btn btn-gold" href="#book">進一步了解</a>
+      <p class="below">適合50人以上，正準備進行關鍵人才盤點、接班布局、關鍵招募或組織調整的部門或企業。</p>
+      <p class="trust">你提供的資料只用於本次需求判斷與對談安排；未經同意，不會提供給其他單位，也不會以評測結果取代企業的用人判斷。</p>
+    </div>
+  </section>
+
+  <!-- 預約表單 -->
+  <section class="section" id="book">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">預約表單</span>
+        <h2>留下資訊，Ginger幫您引薦顧問窗口。</h2>
+      </div>
+      <form class="form-card" id="bookingForm" novalidate action="https://formsubmit.co/gingerlin0919@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="人才動態管理｜新的預約表單填寫">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="field"><label for="f-name">姓名</label><input id="f-name" name="name" type="text" required></div>
+        <div class="field"><label for="f-company">公司名稱</label><input id="f-company" name="company" type="text" required></div>
+        <div class="field"><label for="f-title">職稱</label><input id="f-title" name="title" type="text" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>
+        <div class="field"><label for="f-phone">聯絡電話 <span class="opt">（選填）</span></label><input id="f-phone" name="phone" type="tel"></div>
+        <div class="field">
+          <label for="f-lang">偏好語言</label>
+          <select id="f-lang" name="language" required>
+            <option value="" disabled selected>請選擇</option>
+            <option>中文</option>
+            <option>英文</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-size">公司人數</label>
+          <select id="f-size" name="size" required>
+            <option value="" disabled selected>請選擇</option>
+            <option>50人以下</option>
+            <option>50～99人</option>
+            <option>100～249人</option>
+            <option>250～499人</option>
+            <option>500人以上</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-topic">目前最希望處理的人才課題</label>
+          <select id="f-topic" name="topic" required>
+            <option value="" disabled selected>請選擇</option>
+            <option>關鍵人才盤點</option>
+            <option>接班布局</option>
+            <option>招募與適配</option>
+            <option>主管培育</option>
+            <option>團隊衝突</option>
+            <option>留才與投入感</option>
+            <option>組織調整</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="field full"><label for="f-desc">請簡述目前的情況</label><textarea id="f-desc" name="description" required></textarea></div>
+        <div class="field full">
+          <label for="f-used">是否使用過人才測評？</label>
+          <select id="f-used" name="used" required>
+            <option value="" disabled selected>請選擇</option>
+            <option>尚未使用</option>
+            <option>曾經使用</option>
+            <option>目前持續使用</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-time1">近一個月內您方便會談的三個時間 <span class="opt">（請依優先順序填寫）</span></label>
+          <div class="time-slots">
+            <input id="f-time1" name="time1" type="text" placeholder="優先順序 1，例如：8/25（二）下午2:00–3:00" required>
+            <input id="f-time2" name="time2" type="text" placeholder="優先順序 2" required>
+            <input id="f-time3" name="time3" type="text" placeholder="優先順序 3" required>
+          </div>
+        </div>
+        <label class="consent">
+          <input type="checkbox" id="f-consent" name="consent" required>
+          <span>我同意所提供的資料僅用於本次需求判斷、對談安排與必要聯繫，並已閱讀<a href="[PRIVACY_URL]" target="_blank" rel="noopener">隱私權政策</a>。</span>
+        </label>
+        <!-- dev note: submits via FormSubmit.co (AJAX endpoint, no page reload) to gingerlin0919@gmail.com.
+             IMPORTANT one-time step: the first submission after this form goes live triggers FormSubmit to send
+             an "Activate Form" confirmation email to gingerlin0919@gmail.com — until that link is clicked,
+             submissions will not be delivered. Submit one test entry after launch and check that inbox (and spam). -->
+        <div class="form-msg" id="formMsg" role="status">謝謝您! 完成送單，窗口會在一週內跟您聯繫，確認線上面談時間及與會人員。若有任何疑問，請email給Ginger：<a href="mailto:gingerlin0919@gmail.com" style="color:var(--ink-2); text-decoration:underline;">gingerlin0919@gmail.com</a></div>
+        <div class="form-msg" id="formErr" role="alert" style="border-left-color:#9c3b3b; background:rgba(156,59,59,0.08);">送出時發生問題，麻煩直接email給Ginger：<a href="mailto:gingerlin0919@gmail.com" style="color:var(--ink-2); text-decoration:underline;">gingerlin0919@gmail.com</a>，並附上您方便的聯絡方式，謝謝您的耐心。</div>
+        <div class="form-submit"><button class="btn btn-gold" type="submit">送出資料並預約線上對談</button></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<div class="sticky-cta">
+  <a class="btn btn-gold" href="#book">進一步了解</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-name">Ginger Lin 林逸蓁</div>
+        <div class="foot-role">《把資歷變資產》作者｜企業經營決策現場20年｜人才動態管理概念推廣合作夥伴</div>
+        <div class="foot-oad">
+          <img class="foot-oad-logo" src="img5.png" alt="OAD — Organization Analysis &amp; Design">
+        </div>
+      </div>
+      <div class="foot-links">
+        <a href="https://oad.ai/" target="_blank" rel="noopener">OAD官方網站</a>
+        <a href="[PRIVACY_URL]">隱私權政策</a>
+        <a href="mailto:gingerlin0919@gmail.com">亞洲聯繫窗口：gingerlin0919@gmail.com</a>
+      </div>
+    </div>
+    <p class="foot-note">OAD為獨立的第三方評測平台。本頁內容用於人才管理教育與對談說明，不代表評測可以取代企業的用人決策。</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var nav = document.getElementById('siteNav');
+    var onScroll = function(){
+      if (window.scrollY > 40) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    toggle.addEventListener('click', function(){
+      var open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // FAQ: ensure only one open at a time (native <details name> already does this in modern browsers;
+    // this is a fallback for browsers without radio-group <details> support)
+    var faqItems = document.querySelectorAll('.faq details');
+    faqItems.forEach(function(d){
+      d.addEventListener('toggle', function(){
+        if (d.open) {
+          faqItems.forEach(function(other){ if (other !== d) other.open = false; });
+        }
+      });
+    });
+
+    // Booking form: validates, then submits via FormSubmit.co's AJAX endpoint (no page reload)
+    // and emails the result to gingerlin0919@gmail.com. See dev note in the HTML above the form
+    // about the one-time "Activate Form" email FormSubmit sends on first use.
+    var form = document.getElementById('bookingForm');
+    var msg = document.getElementById('formMsg');
+    var errMsg = document.getElementById('formErr');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var submitBtnDefaultText = submitBtn.textContent;
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      msg.classList.remove('show');
+      errMsg.classList.remove('show');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送出中…';
+
+      fetch('https://formsubmit.co/ajax/gingerlin0919@gmail.com', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function(res){ if (!res.ok) throw new Error('submit failed'); return res.json(); })
+        .then(function(){
+          msg.classList.add('show');
+          msg.scrollIntoView({behavior:'smooth', block:'center'});
+          form.reset();
+        })
+        .catch(function(){
+          errMsg.classList.add('show');
+          errMsg.scrollIntoView({behavior:'smooth', block:'center'});
+        })
+        .finally(function(){
+          submitBtn.disabled = false;
+          submitBtn.textContent = submitBtnDefaultText;
+        });
+    });
+  })();
+</script>
